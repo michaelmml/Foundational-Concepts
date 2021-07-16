@@ -67,7 +67,11 @@ data.loc[(data['Age'] > 16) & (data['Age'] <= 32), 'Age'] = 1
 data.loc[(data['Age'] > 32) & (data['Age'] <= 48), 'Age'] = 2
 data.loc[(data['Age'] > 48) & (data['Age'] <= 64), 'Age'] = 3
 data.loc[data['Age'] > 64, 'Age'] = 4
+```
 
+Specific usage of apply + cumsum together with groupby, can create a new column populated by the cumulative sum of another column determined by a specific grouping. This can then be combined with an approach to workout the date / index corresponding to the cumsum. The key part of the code within the apply method is data.loc('cumsum for a group' - 'target amount').idxmin() to find the date / index with the cumsum closest to the target. The lambda x cycles through of the grouping.
+
+```
 # More complex usage of apply method
 data[new_col] = data.groupby([grouping])[col].apply(lambda x: x.fillna(0).cumsum())
 
